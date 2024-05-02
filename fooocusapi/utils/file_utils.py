@@ -9,10 +9,25 @@ import json
 from pathlib import Path
 from PIL.PngImagePlugin import PngInfo
 import boto3
+import firebase_admin
+from firebase_admin import credentials, storage
 
+cred = credentials.Certificate("/workspace/Hair AI Firebase Admin.json")
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'hair-ai.appspot.com'
+})
+
+def convert_to_url(local_file, cloud_file):
+    bucket = storage.bucket()
+    blob = bucket.blob(cloud_file)
+    blob.upload_from_filename(local_file)
+    # Make the blob publicly viewable
+    blob.make_public()
+    # Return the public URL
+    return blob.public_url
 
 output_dir = os.path.abspath(os.path.join(
-    os.path.dirname(__file__), '..', 'outputs', 'files'))
+os.path.dirname(__file__), '..', 'outputs', 'files'))
 os.makedirs(output_dir, exist_ok=True)
 
 def save_output_file(img: np.ndarray, image_meta: dict = None,
@@ -94,13 +109,10 @@ def output_file_to_bytesimg(filename: str | None) -> bytes | None:
 def get_file_serve_url(filename: str | None) -> str | None:
     if filename is None:
         return None
-    s3_client = boto3.client('s3', aws_access_key_id="", aws_secret_access_key="")
-    BUCKET_NAME = ''
-    FOLDER_NAME = ''
     file_path = os.path.join(output_dir, filename)
     image_name = f"generated_image_{os.urandom(4).hex()}.webp"
-    s3_client.upload_file(file_path , BUCKET_NAME,FOLDER_NAME+image_name)
-    static_serve_base_url = 's3-bucket-url'
-    print(static_serve_base_url)
+    cloud_file_path = f"user/user_{int(time.time())}.png"
+    url = convert_to_url(file_path, cloud_file_path)
+    print(url)
     print(file_path)
-    return static_serve_base_url + image_name
+    return url
