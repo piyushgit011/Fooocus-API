@@ -8,10 +8,10 @@ import uuid
 import json
 from pathlib import Path
 from PIL.PngImagePlugin import PngInfo
+import boto3
 import firebase_admin
 from firebase_admin import credentials, storage
 import time
-
 cred = credentials.Certificate("/workspace/hair_ai/Hair AI Firebase Admin.json")
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'hair-ai.appspot.com'
@@ -27,7 +27,7 @@ def convert_to_url(local_file, cloud_file):
     return blob.public_url
 
 output_dir = os.path.abspath(os.path.join(
-os.path.dirname(__file__), '..', 'outputs', 'files'))
+   os.path.dirname(__file__), '../..', 'outputs', 'files'))
 os.makedirs(output_dir, exist_ok=True)
 
 def save_output_file(img: np.ndarray, image_meta: dict = None,
