@@ -12,7 +12,7 @@ import boto3
 import firebase_admin
 from firebase_admin import credentials, storage
 
-cred = credentials.Certificate("/workspace/Hair AI Firebase Admin.json")
+cred = credentials.Certificate("/workspace/hair_ai/Hair AI Firebase Admin.json")
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'hair-ai.appspot.com'
 })
