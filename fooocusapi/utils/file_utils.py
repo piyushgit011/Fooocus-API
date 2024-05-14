@@ -57,13 +57,16 @@ def save_output_file(img: np.ndarray, image_meta: dict = None,
         image_meta = {}
 
     meta = None
-    if extension == 'png':
+    if extension == 'png'and image_meta != {}:
         meta = PngInfo()
         meta.add_text("params", json.dumps(image_meta))
 
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    Image.fromarray(img).save(file_path, format=extension,
-                              pnginfo=meta, optimize=True)
+    Image.fromarray(img).save(
+        file_path,
+        format=extension,
+        pnginfo=meta,
+        optimize=True)
     return Path(filename).as_posix()
 
 
