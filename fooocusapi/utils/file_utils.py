@@ -52,6 +52,7 @@ def save_output_file(img: np.ndarray, image_meta: dict = None,
 
     if extension not in ['png', 'jpg', 'webp']:
         extension = 'png'
+    image_format = Image.registered_extensions()['.'+extension]
 
     if image_meta is None:
         image_meta = {}
@@ -64,7 +65,7 @@ def save_output_file(img: np.ndarray, image_meta: dict = None,
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     Image.fromarray(img).save(
         file_path,
-        format=extension,
+        format=image_format,
         pnginfo=meta,
         optimize=True)
     return Path(filename).as_posix()

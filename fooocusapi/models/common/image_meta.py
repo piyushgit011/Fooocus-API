@@ -39,9 +39,10 @@ class ImageMeta(BaseModel):
     scheduler: str = "karras"
     seed: str
     adm_guidance: str
-    guidance_scale: int
-    sharpness: int
+    guidance_scale: float
+    sharpness: float
     steps: int
+    vae_name: str
 
     version: str = version
 
@@ -101,6 +102,7 @@ def image_parse(
         guidance_scale=req_param.guidance_scale,
         sharpness=req_param.sharpness,
         steps=-1,
+        vae_name=req_param.advanced_params.vae_name,
         version=version
     )
     if meta.metadata_scheme not in ["fooocus", "a111"]:
