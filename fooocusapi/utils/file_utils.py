@@ -8,7 +8,7 @@ import uuid
 import json
 from pathlib import Path
 from PIL.PngImagePlugin import PngInfo
-import boto3
+# import boto3
 import firebase_admin
 from firebase_admin import credentials, storage
 import time
