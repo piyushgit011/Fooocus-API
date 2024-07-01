@@ -12,7 +12,7 @@ from PIL.PngImagePlugin import PngInfo
 import firebase_admin
 from firebase_admin import credentials, storage
 import time
-cred = credentials.Certificate("/workspace/hair_ai/Hair AI Firebase Admin.json")
+cred = credentials.Certificate("/workspace/Hair AI Firebase Admin.json")
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'hai-style-with-ai.appspot.com'
 })
